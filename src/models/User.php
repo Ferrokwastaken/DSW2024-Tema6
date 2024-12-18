@@ -2,21 +2,38 @@
 
 namespace Dsw\Tema6\Models;
 
+use PDO;
+use PDOException;
+
 class User {
-  static private $users = [
-    ['id' => '1', 'name' => 'Pepe', 'surname' => 'García'],
-    ['id' => '2', 'name' => 'Ana', 'surname' => 'Marín'],
-    ['id' => '3', 'name' => 'Julia', 'surname' => 'Leiva'],
-    ['id' => '4', 'name' => 'Roberto', 'surname' => 'Durán']
-  ];
+  static private $connection;
+
+  public function __construct()
+  {
+    $host = 'localhost';
+    $user = 'root';
+    $password = '';
+    $db = 'capasbd';
+    $dsn = "mysql:host=$host;dbname=$db";
+
+    try {
+      self::$connection = new PDO($dsn, $user, $password);
+      self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $th) {
+      die('Error en la conexión: ' . $th->getMessage());
+    }
+  }
 
   public static function all() {
-    return self::$users;
+    $statement = self::$connection->prepare('SELECT * FROM users');
+    $statement->execute();
+    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $results;
   }
 
   public static function get($id) {
-    return array_first(self::$users, function($user) use($id) {
-      return $user['id'] == $id;
-    });
+    // return array_first(self::$users, function($user) use($id) {
+    //   return $user['id'] == $id;
+    // });
   }
 }
