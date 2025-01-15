@@ -10,7 +10,6 @@ class UserController extends Controller{
     $userDAO = new UserImplement();
     $users = $userDAO->findAll();
     echo $this->blade->view()->make('user.index', compact('users'))->render();
-
   }
 
   public function show($param) {
