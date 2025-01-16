@@ -55,4 +55,25 @@ class GroupController extends Controller {
     $groupDAO->update($id, $name);
     $this->index();
   }
+
+  public function users ($param) {
+    $id = $param['id'];
+    $groupDAO = new GroupImplement();
+    $group = $groupDAO->findById($id);
+    $userDAO = new UserImplement();
+    $users = $userDAO->findAll();
+    $usersBelong = $group->users();
+    $usersBelongId = array_map(
+      fn($user) => $user->getId(),
+      $usersBelong
+    );
+    echo $this->blade->view()->make('group.users', compact('group', 'users', 'usersBelong', 'usersBelongId'))->render();
+  }
+
+  public function postusers ($param) {
+    $id_group = $param['id'];
+    echo $id_group;
+    echo '<br>';
+    var_dump($_POST);
+  }
 }

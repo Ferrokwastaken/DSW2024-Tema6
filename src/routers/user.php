@@ -13,3 +13,5 @@ $router->map('GET', '/user/[i:id]/edit', 'UserController#edit');
 $router->map('GET', '/group/[i:id]/edit', 'GroupController#edit');
 $router->map('PUT','/user/[i:id]', 'UserController#put');
 $router->map('PUT','/group/[i:id]', 'GroupController#put');
+$router->map('GET', '/group/[i:id]/users', 'GroupController#users');
+$router->map('POST', '/group/[i:id]/users', 'GroupController#postusers');
