@@ -52,4 +52,36 @@ class GroupImplement {
     $statement->bindParam(':name', $name);
     $statement->execute();
   }
+
+  public function delete(int $id) {
+    $query = 'DELETE FROM `groups` WHERE id = :id';
+    $statement = $this->db->getConnection()->prepare($query);
+    $statement->bindParam(':id', $id);
+    $statement->execute();
+  }
+
+  public function update (int $id, string $name) {
+    $query = 'UPDATE `groups` SET name=:name WHERE id = :id';
+    $statement = $this->db->getConnection()->prepare($query);
+    $statement->bindParam(':id', $id);
+    $statement->bindParam(':name', $name);
+    $statement->execute();
+  }
+
+  public function findGroupsByUserId(int $id) {
+    $query = 'SELECT id, name FROM `groups` INNER JOIN group_user ON `groups`.id = group_user.id_group WHERE group_user.id_user = :id_user';
+    $statement = $this->db->getConnection()->prepare($query);
+    $statement->bindParam(':id_user', $id);
+    $statement->execute();
+    $groups = [];
+    while ($groupRecord = $statement->fetch(PDO::FETCH_ASSOC)) {
+      $group = new Group(
+        $groupRecord['id'],
+        $groupRecord['name']
+      );
+      $groups[] = $group;
+    }
+
+    return $groups;
+  }
 }

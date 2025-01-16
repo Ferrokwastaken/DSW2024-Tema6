@@ -17,6 +17,12 @@
       </form>      
     </div>
   </p>
+  <h3>Grupos a los que pertenece</h3>
+  <ul>
+    @foreach($user->groups() as $group)
+    <li><a href="/group/{{ $group->getGroupId() }}">{{ $group->getGroupName() }}</a></li>
+    @endforeach
+  </ul>
 @else
   <h2>Usuario no encontrado</h2>
 @endif

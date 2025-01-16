@@ -21,6 +21,10 @@
         <td>
         <a href="/group/{{ $group->getGroupId() }}"><button>Mostrar</button></a>
         <a href="/group/{{ $group->getGroupId() }}/edit"><button>Editar</button></a>
+        <form action="/group/{{ $group->getGroupId() }}" method="post" class="inline">
+          <input type="hidden" name="_method" value="delete">
+          <input type="submit" value="eliminar">
+        </form>
         </td>
       </tr>
       @endforeach
